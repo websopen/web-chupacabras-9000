@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import ApiTester from './components/ApiTester';
+import DiagnosticSuite from './components/DiagnosticSuite';
 import {
     Settings, Send, Users, Truck, ShoppingBag, PackageCheck,
     Database, Brain, Terminal, LayoutGrid, Activity,
-    ShieldCheck, Cpu, MessageSquare
+    ShieldCheck, Cpu, MessageSquare, HeartPulse
 } from 'lucide-react';
 
 function App() {
@@ -16,8 +17,8 @@ function App() {
         <button
             onClick={() => setActiveTab(id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${activeTab === id
-                    ? `bg-${color}-500/20 text-${color}-400 border border-${color}-500/50 shadow-[0_0_15px_rgba(0,0,0,0.2)]`
-                    : 'text-apple-textMuted hover:text-white hover:bg-white/5 border border-transparent'
+                ? `bg-${color}-500/20 text-${color}-400 border border-${color}-500/50 shadow-[0_0_15px_rgba(0,0,0,0.2)]`
+                : 'text-apple-textMuted hover:text-white hover:bg-white/5 border border-transparent'
                 }`}
         >
             <Icon className="w-4 h-4" />
@@ -253,47 +254,57 @@ function App() {
                 )}
 
                 {activeTab === 'system' && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <section className="glass-panel p-6 border-t-2 border-t-orange-500">
-                            <div className="flex items-center gap-2 mb-4">
-                                <Activity className="w-5 h-5 text-orange-400" />
-                                <h2 className="text-xl font-semibold">Salud del Core</h2>
+                    <div className="space-y-8">
+                        <section className="glass-panel p-6 border-t-2 border-t-red-500 shadow-[0_0_30px_rgba(239,68,68,0.1)]">
+                            <div className="flex items-center gap-2 mb-6 text-red-400">
+                                <HeartPulse className="w-6 h-6 animate-pulse" />
+                                <h2 className="text-2xl font-bold">Suite de Diagnóstico</h2>
                             </div>
-                            <ApiTester
-                                endpoint="/api/health"
-                                method="GET"
-                                defaultPayload={{}}
-                            />
+                            <DiagnosticSuite businessId={businessId} />
                         </section>
 
-                        <section className="glass-panel p-6 border-t-2 border-t-orange-500">
-                            <div className="flex items-center gap-2 mb-4">
-                                <ShieldCheck className="w-5 h-5 text-green-400" />
-                                <h2 className="text-xl font-semibold">Reportes de Test (Chaos)</h2>
-                            </div>
-                            <ApiTester
-                                endpoint="/api/internal/tests/reports"
-                                method="GET"
-                                defaultPayload={{}}
-                            />
-                        </section>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <section className="glass-panel p-6 border-t-2 border-t-orange-500">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <Activity className="w-5 h-5 text-orange-400" />
+                                    <h2 className="text-xl font-semibold">Salud del Core</h2>
+                                </div>
+                                <ApiTester
+                                    endpoint="/api/health"
+                                    method="GET"
+                                    defaultPayload={{}}
+                                />
+                            </section>
 
-                        <section className="glass-panel p-6 border-t-2 border-t-orange-500">
-                            <div className="flex items-center gap-2 mb-4">
-                                <Cpu className="w-5 h-5 text-red-400" />
-                                <h2 className="text-xl font-semibold">Inyección Directa Cerebro</h2>
-                            </div>
-                            <ApiTester
-                                endpoint="/api/internal/send_message"
-                                method="POST"
-                                defaultPayload={{
-                                    platform: "telegram",
-                                    recipient: defaultChatId,
-                                    message: "🚀 Mensaje inyectado directamente a Cerebro actions via Web Lab."
-                                }}
-                                syncGlobal={{ recipient: defaultChatId }}
-                            />
-                        </section>
+                            <section className="glass-panel p-6 border-t-2 border-t-orange-500">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <ShieldCheck className="w-5 h-5 text-green-400" />
+                                    <h2 className="text-xl font-semibold">Reportes de Test (Chaos)</h2>
+                                </div>
+                                <ApiTester
+                                    endpoint="/api/internal/tests/reports"
+                                    method="GET"
+                                    defaultPayload={{}}
+                                />
+                            </section>
+
+                            <section className="glass-panel p-6 border-t-2 border-t-orange-500">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <Cpu className="w-5 h-5 text-red-400" />
+                                    <h2 className="text-xl font-semibold">Inyección Directa Cerebro</h2>
+                                </div>
+                                <ApiTester
+                                    endpoint="/api/internal/send_message"
+                                    method="POST"
+                                    defaultPayload={{
+                                        platform: "telegram",
+                                        recipient: defaultChatId,
+                                        message: "🚀 Mensaje inyectado directamente a Cerebro actions via Web Lab."
+                                    }}
+                                    syncGlobal={{ recipient: defaultChatId }}
+                                />
+                            </section>
+                        </div>
                     </div>
                 )}
             </div>

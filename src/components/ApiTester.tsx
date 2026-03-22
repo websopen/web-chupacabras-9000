@@ -32,7 +32,7 @@ const ApiTester: React.FC<ApiTesterProps> = ({ endpoint, method, defaultPayload,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(payload),
+                body: (method !== 'GET' && method !== 'HEAD') ? JSON.stringify(payload) : undefined,
             });
 
             const data = await res.json();
