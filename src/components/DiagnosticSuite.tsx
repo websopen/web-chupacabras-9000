@@ -33,12 +33,14 @@ const DiagnosticSuite: React.FC<{ businessId: number }> = ({ businessId }) => {
 
         const initialTests: TestResult[] = [
             { name: 'Core API Health', endpoint: '/api/health', status: 'pending' },
-            { name: 'ERPNext Connectivity', endpoint: '/api/v1/erp/health', status: 'pending' },
-            { name: 'WhatsApp Evolution', endpoint: '/api/v1/evolution/list', status: 'pending' },
-            { name: 'Telegram Core', endpoint: '/api/v1/bot-factory/telethon-status', status: 'pending' },
-            { name: 'Knowledge Stats', endpoint: '/api/v1/knowledge/stats', status: 'pending' },
-            { name: 'OMNIII Stock', endpoint: '/api/v1/stock/cards', status: 'pending' },
-            { name: 'Clawbot Gestor', endpoint: `/api/v1/admin/businesses/${businessId}/gestor`, status: 'pending' },
+            { name: 'ERP Bridge Check', endpoint: '/api/v1/erp/health', status: 'pending' },
+            { name: 'ERP Customer List', endpoint: '/api/v1/erp/customers?limit=1', status: 'pending' },
+            { name: 'ERP Stock Inquiry', endpoint: '/api/v1/erp/stock/GENERAL?limit=1', status: 'pending' },
+            { name: 'WhatsApp Instance', endpoint: '/api/v1/evolution/list', status: 'pending' },
+            { name: 'Telegram Runtime', endpoint: '/api/v1/bot-factory/telethon-status', status: 'pending' },
+            { name: 'Knowledge RAG Index', endpoint: '/api/v1/knowledge/stats', status: 'pending' },
+            { name: 'OMNIII Stock Ledger', endpoint: '/api/v1/stock/cards', status: 'pending' },
+            { name: 'Clawbot Gestor Sync', endpoint: `/api/v1/admin/businesses/${businessId}/gestor`, status: 'pending' },
             { name: 'Messaging Baseline', endpoint: '/api/v1/messaging/send', status: 'pending' }
         ];
 
@@ -49,7 +51,15 @@ const DiagnosticSuite: React.FC<{ businessId: number }> = ({ businessId }) => {
             const test = currentResults[i];
             currentResults[i] = { ...test, status: 'running' };
             setResults([...currentResults]);
-            addLog(`⚡ Probando: ${test.name}...`);
+
+            // Contextual Logging
+            if (test.name.startsWith('ERP')) {
+                addLog(`🔍 [ERPNext] Verificando módulo: ${test.name.replace('ERP ', '')}...`);
+            } else if (test.name.includes('WhatsApp') || test.name.includes('Telegram')) {
+                addLog(`📱 [Messaging] Comprobando puente de red: ${test.name}...`);
+            } else {
+                addLog(`⚡ [Core] Testeando capa: ${test.name}...`);
+            }
 
             try {
                 const isPost = ['Messaging Baseline'].includes(test.name);
@@ -58,7 +68,7 @@ const DiagnosticSuite: React.FC<{ businessId: number }> = ({ businessId }) => {
                     business_id: businessId,
                     target_role: 'cliente',
                     chat_id: 7616797355,
-                    text: 'OMNIII Lab V3.0 Diagnostic Ping'
+                    text: 'OMNIII Lab V3.1 Deep Scan Ping'
                 }) : undefined;
 
                 const res = await fetch(test.endpoint, {
@@ -71,7 +81,17 @@ const DiagnosticSuite: React.FC<{ businessId: number }> = ({ businessId }) => {
 
                 if (res.ok && data.success !== false) {
                     currentResults[i] = { ...test, status: 'success', response: data };
-                    addLog(`  ✅ EXITO: ${test.name}`);
+
+                    // Detailed result logging
+                    if (test.name === 'ERP Customer List') {
+                        addLog(`  ✅ EXITO: ${data.count || 0} clientes detectados en ERPNext.`);
+                    } else if (test.name === 'ERP Stock Inquiry') {
+                        addLog(`  ✅ EXITO: Conexión a almacén establecida correctamente.`);
+                    } else if (test.name === 'Knowledge RAG Index') {
+                        addLog(`  ✅ EXITO: ${data.total_items || 0} fragmentos indexados en el cerebro.`);
+                    } else {
+                        addLog(`  ✅ EXITO: ${test.name} respondió correctamente.`);
+                    }
                 } else {
                     const errMsg = data.error || data.message || `HTTP ${res.status}`;
                     currentResults[i] = { ...test, status: 'error', error: errMsg };
@@ -143,9 +163,9 @@ const DiagnosticSuite: React.FC<{ businessId: number }> = ({ businessId }) => {
                     <div className="flex flex-col gap-2.5">
                         {results.length > 0 ? results.map((test, i) => (
                             <div key={i} className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${test.status === 'success' ? 'bg-green-500/5 border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.05)]' :
-                                    test.status === 'error' ? 'bg-red-500/5 border-red-500/20' :
-                                        test.status === 'running' ? 'bg-orange-500/5 border-orange-500/40 animate-pulse' :
-                                            'bg-black/40 border-white/5'
+                                test.status === 'error' ? 'bg-red-500/5 border-red-500/20' :
+                                    test.status === 'running' ? 'bg-orange-500/5 border-orange-500/40 animate-pulse' :
+                                        'bg-black/40 border-white/5'
                                 }`}>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-bold text-white/90">{test.name}</span>
