@@ -27,7 +27,11 @@ const DiagnosticSuite = ({ businessId }: { businessId: number }) => {
         const initialTests: TestResult[] = [
             { name: 'Core API Health', endpoint: '/api/health', status: 'pending' },
             { name: 'ERPNext Connectivity', endpoint: '/api/v1/erp/health', status: 'pending' },
-            { name: 'Clawbot Gestor Lookup', endpoint: `/api/v1/admin/businesses/${businessId}/gestor`, status: 'pending' },
+            { name: 'WhatsApp Evolution', endpoint: '/api/v1/evolution/list', status: 'pending' },
+            { name: 'Telegram Core', endpoint: '/api/v1/bot-factory/telethon-status', status: 'pending' },
+            { name: 'Knowledge Stats', endpoint: '/api/v1/knowledge/stats', status: 'pending' },
+            { name: 'OMNIII Stock', endpoint: '/api/v1/stock/cards', status: 'pending' },
+            { name: 'Clawbot Gestor', endpoint: `/api/v1/admin/businesses/${businessId}/gestor`, status: 'pending' },
             { name: 'Messaging Baseline', endpoint: '/api/v1/messaging/send', status: 'pending' }
         ];
 
@@ -42,12 +46,15 @@ const DiagnosticSuite = ({ businessId }: { businessId: number }) => {
             addLog(`Ejecutando: ${test.name}...`);
 
             try {
-                const method = test.name === 'Messaging Baseline' ? 'POST' : 'GET';
+                // Determine method based on endpoint or name
+                const isPost = ['Messaging Baseline'].includes(test.name);
+                const method = isPost ? 'POST' : 'GET';
+
                 const body = method === 'POST' ? JSON.stringify({
                     business_id: businessId,
                     target_role: 'cliente',
                     chat_id: 7616797355,
-                    text: 'OMNIII System Diagnostic Ping'
+                    text: 'OMNIII Lab V3.0 Diagnostic Ping'
                 }) : undefined;
 
                 const res = await fetch(test.endpoint, {
@@ -58,12 +65,13 @@ const DiagnosticSuite = ({ businessId }: { businessId: number }) => {
 
                 const data = await res.json();
 
-                if (res.ok) {
+                if (res.ok \u0026\u0026 data.success !== false) { // Handle both HTTP 200 and success: false in body
                     currentResults[i] = { ...test, status: 'success', response: data };
                     addLog(`✅ OK: ${test.name}`);
                 } else {
-                    currentResults[i] = { ...test, status: 'error', error: data.error || data.message || `HTTP ${res.status}` };
-                    addLog(`❌ FALLO: ${test.name} - ${currentResults[i].error}`);
+                    const errMsg = data.error || data.message || `HTTP ${res.status}`;
+                    currentResults[i] = { ...test, status: 'error', error: errMsg };
+                    addLog(`❌ FALLO: ${test.name} - ${errMsg}`);
                 }
             } catch (err: any) {
                 currentResults[i] = { ...test, status: 'error', error: err.message };
