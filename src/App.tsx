@@ -10,7 +10,7 @@ import {
 
 function App() {
     const [businessId, setBusinessId] = useState<number>(33);
-    const [activeTab, setActiveTab] = useState<string>('catalog');
+    const [activeTab, setActiveTab] = useState<string>('system');
     const [targetRole, setTargetRole] = useState<string>('cliente');
     const [defaultChatId, setDefaultChatId] = useState<string>('7616797355');
 
@@ -290,7 +290,7 @@ function App() {
 
             <footer className="mt-20 py-8 border-t border-apple-border text-center">
                 <p className="text-sm text-apple-textMuted font-medium">
-                    OMNIII Full System Lab • Business ID: {businessId} • V2.0 (Generic Proxy)
+                    OMNIII Full System Lab • Business ID: {businessId} • V3.1 (Omni Console)
                 </p>
                 <div className="flex justify-center gap-4 mt-4 opacity-50">
                     <div className="flex items-center gap-1 text-[10px] uppercase tracking-tighter">
