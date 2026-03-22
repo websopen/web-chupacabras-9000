@@ -6,8 +6,8 @@ export async function onRequest(context) {
     // params.path será ["v1", "erp", "health"]
     const routePath = params.path ? params.path.join('/') : '';
 
-    // URL base del VPS de OMNIII (Usamos el dominio público para evitar problemas de puerto/firewall)
-    const VPS_BASE_URL = env.VPS_API_URL || "https://websopen.com";
+    // URL base del VPS de OMNIII (puerto 8080 — compatible con Cloudflare Workers)
+    const VPS_BASE_URL = env.VPS_API_URL || "http://207.180.243.41:8080";
 
     // Construimos la URL de destino manteniendo la estructura /api/...
     const targetUrl = `${VPS_BASE_URL}/api/${routePath}`;
