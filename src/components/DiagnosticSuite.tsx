@@ -65,7 +65,7 @@ const DiagnosticSuite = ({ businessId }: { businessId: number }) => {
 
                 const data = await res.json();
 
-                if (res.ok \u0026\u0026 data.success !== false) { // Handle both HTTP 200 and success: false in body
+                if (res.ok && data.success !== false) { // Handle both HTTP 200 and success: false in body
                     currentResults[i] = { ...test, status: 'success', response: data };
                     addLog(`✅ OK: ${test.name}`);
                 } else {
