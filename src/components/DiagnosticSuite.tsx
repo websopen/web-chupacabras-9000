@@ -46,7 +46,7 @@ const DiagnosticSuite = ({ businessId }: { businessId: number }) => {
                 const body = method === 'POST' ? JSON.stringify({
                     business_id: businessId,
                     target_role: 'cliente',
-                    chat_id: 'test_diag',
+                    chat_id: 7616797355,
                     text: 'OMNIII System Diagnostic Ping'
                 }) : undefined;
 
