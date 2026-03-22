@@ -8,7 +8,7 @@ export async function onRequest(context) {
 
     // URL base del VPS
     // Obtenemos de secretos (en producción) o usamos la IP en el de desarrollo configurado
-    const VPS_BASE_URL = env.VPS_API_URL || "http://207.180.243.41:8080";
+    const VPS_BASE_URL = env.VPS_API_URL || "http://207.180.243.41:5005";
     const targetUrl = `${VPS_BASE_URL}/api/v1/messaging/${routePath}`;
 
     try {
