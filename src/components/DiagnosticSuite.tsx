@@ -31,17 +31,18 @@ const DiagnosticSuite: React.FC<{ businessId: number }> = ({ businessId }) => {
         addLog('🚀 Iniciando Suite de Diagnóstico Total OMNIII V3.0...');
         addLog(`📍 Configuración: BusinessID=${businessId}, Host=api.websopen.com`);
 
+        const API_BASE = 'https://api.websopen.com';
         const initialTests: TestResult[] = [
-            { name: 'Core API Health', endpoint: '/api/health', status: 'pending' },
-            { name: 'ERP Bridge Check', endpoint: '/api/v1/erp/health', status: 'pending' },
-            { name: 'ERP Customer List', endpoint: '/api/v1/erp/customers?limit=1', status: 'pending' },
-            { name: 'ERP Stock Inquiry', endpoint: '/api/v1/erp/stock/GENERAL?limit=1', status: 'pending' },
-            { name: 'WhatsApp Instance', endpoint: '/api/v1/evolution/list', status: 'pending' },
-            { name: 'Telegram Runtime', endpoint: '/api/v1/bot-factory/telethon-status', status: 'pending' },
-            { name: 'Knowledge RAG Index', endpoint: '/api/v1/knowledge/stats', status: 'pending' },
-            { name: 'OMNIII Stock Ledger', endpoint: '/api/v1/stock/cards', status: 'pending' },
-            { name: 'Clawbot Gestor Sync', endpoint: `/api/v1/admin/businesses/${businessId}/gestor`, status: 'pending' },
-            { name: 'Messaging Baseline', endpoint: '/api/v1/messaging/send', status: 'pending' }
+            { name: 'Core API Health', endpoint: `${API_BASE}/api/health`, status: 'pending' },
+            { name: 'ERP Bridge Check', endpoint: `${API_BASE}/api/v1/erp/health`, status: 'pending' },
+            { name: 'ERP Customer List', endpoint: `${API_BASE}/api/v1/erp/customers?limit=1`, status: 'pending' },
+            { name: 'ERP Stock Inquiry', endpoint: `${API_BASE}/api/v1/erp/stock/GENERAL?limit=1`, status: 'pending' },
+            { name: 'WhatsApp Instance', endpoint: `${API_BASE}/api/v1/evolution/list`, status: 'pending' },
+            { name: 'Telegram Runtime', endpoint: `${API_BASE}/api/v1/bot-factory/telethon-status`, status: 'pending' },
+            { name: 'Knowledge RAG Index', endpoint: `${API_BASE}/api/v1/knowledge/stats`, status: 'pending' },
+            { name: 'OMNIII Stock Ledger', endpoint: `${API_BASE}/api/v1/stock/cards`, status: 'pending' },
+            { name: 'Clawbot Gestor Sync', endpoint: `${API_BASE}/api/v1/admin/businesses/${businessId}/gestor`, status: 'pending' },
+            { name: 'Messaging Baseline', endpoint: `${API_BASE}/api/v1/messaging/send`, status: 'pending' }
         ];
 
         setResults(initialTests);

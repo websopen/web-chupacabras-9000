@@ -200,7 +200,7 @@ function App() {
                                 <h2 className="text-xl font-semibold italic text-purple-400 uppercase tracking-tighter">Cerebro / Gestor Lookup</h2>
                             </div>
                             <ApiTester
-                                endpoint={`/api/v1/admin/businesses/${businessId}/gestor`}
+                                endpoint={`${API_BASE}/api/v1/admin/businesses/${businessId}/gestor`}
                                 method="GET"
                                 defaultPayload={{}}
                                 syncGlobal={{ business_id: businessId }}
@@ -213,7 +213,7 @@ function App() {
                                 <h2 className="text-xl font-semibold italic text-blue-400 uppercase tracking-tighter">Profile Tags (Long-Term Memory)</h2>
                             </div>
                             <ApiTester
-                                endpoint="/api/v1/admin/gestors/33/tags"
+                                endpoint={`${API_BASE}/api/v1/admin/gestors/33/tags`}
                                 method="GET"
                                 defaultPayload={{}}
                             />
