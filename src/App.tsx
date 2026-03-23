@@ -13,6 +13,7 @@ function App() {
     const [activeTab, setActiveTab] = useState<string>('system');
     const [targetRole, setTargetRole] = useState<string>('cliente');
     const [defaultChatId, setDefaultChatId] = useState<string>('7616797355');
+    const API_BASE = 'https://api.websopen.com';
 
     const TabButton = ({ id, icon: Icon, label, color }: any) => (
         <button
@@ -119,7 +120,7 @@ function App() {
                                     <h2 className="text-xl font-semibold italic text-green-500 uppercase tracking-tighter">Envío Genérico</h2>
                                 </div>
                                 <ApiTester
-                                    endpoint="/api/v1/messaging/send"
+                                    endpoint={`${API_BASE}/api/v1/messaging/send`}
                                     method="POST"
                                     defaultPayload={{
                                         business_id: businessId,
@@ -137,7 +138,7 @@ function App() {
                                     <h2 className="text-xl font-semibold italic text-yellow-500 uppercase tracking-tighter">Broadcast Masivo</h2>
                                 </div>
                                 <ApiTester
-                                    endpoint="/api/v1/messaging/send-bulk"
+                                    endpoint={`${API_BASE}/api/v1/messaging/send-bulk`}
                                     method="POST"
                                     defaultPayload={{
                                         business_id: businessId,
@@ -159,7 +160,7 @@ function App() {
                                     <Truck className="w-5 h-5" /> Ruta Lista
                                 </h3>
                                 <ApiTester
-                                    endpoint="/api/v1/messaging/flow/repartidor/asignar-ruta"
+                                    endpoint={`${API_BASE}/api/v1/messaging/flow/repartidor/asignar-ruta`}
                                     method="POST"
                                     defaultPayload={{ business_id: businessId, repartidor_chat_id: defaultChatId, repartidor_nombre: "Lab User", cantidad_pedidos: 3 }}
                                     syncGlobal={{ business_id: businessId, repartidor_chat_id: defaultChatId }}
@@ -170,7 +171,7 @@ function App() {
                                     <ShoppingBag className="w-5 h-5 " /> En Camino
                                 </h3>
                                 <ApiTester
-                                    endpoint="/api/v1/messaging/flow/cliente/pedido-en-camino"
+                                    endpoint={`${API_BASE}/api/v1/messaging/flow/cliente/pedido-en-camino`}
                                     method="POST"
                                     defaultPayload={{ business_id: businessId, cliente_chat_id: defaultChatId, id_pedido: "TEST-001" }}
                                     syncGlobal={{ business_id: businessId, cliente_chat_id: defaultChatId }}
@@ -181,7 +182,7 @@ function App() {
                                     <PackageCheck className="w-5 h-5" /> Retiro Listo
                                 </h3>
                                 <ApiTester
-                                    endpoint="/api/v1/messaging/flow/cliente/pedido-listo"
+                                    endpoint={`${API_BASE}/api/v1/messaging/flow/cliente/pedido-listo`}
                                     method="POST"
                                     defaultPayload={{ business_id: businessId, cliente_chat_id: defaultChatId, id_pedido: "TEST-002", tipo_entrega: "retiro" }}
                                     syncGlobal={{ business_id: businessId, cliente_chat_id: defaultChatId }}
@@ -224,7 +225,7 @@ function App() {
                                 <h2 className="text-xl font-semibold italic text-purple-400 uppercase tracking-tighter">RAG Search (Knowledge base)</h2>
                             </div>
                             <ApiTester
-                                endpoint="/api/v1/knowledge/search"
+                                endpoint={`${API_BASE}/api/v1/knowledge/search`}
                                 method="GET"
                                 defaultPayload={{ q: "ventas", method: "auto", limit: 5 }}
                             />
@@ -249,7 +250,7 @@ function App() {
                                     <h2 className="text-xl font-semibold">Salud del Core</h2>
                                 </div>
                                 <ApiTester
-                                    endpoint="/api/health"
+                                    endpoint={`${API_BASE}/api/health`}
                                     method="GET"
                                     defaultPayload={{}}
                                 />
@@ -261,7 +262,7 @@ function App() {
                                     <h2 className="text-xl font-semibold">Reportes de Test (Chaos)</h2>
                                 </div>
                                 <ApiTester
-                                    endpoint="/api/internal/tests/reports"
+                                    endpoint={`${API_BASE}/api/internal/tests/reports`}
                                     method="GET"
                                     defaultPayload={{}}
                                 />
@@ -273,7 +274,7 @@ function App() {
                                     <h2 className="text-xl font-semibold">Inyección Directa Cerebro</h2>
                                 </div>
                                 <ApiTester
-                                    endpoint="/api/internal/send_message"
+                                    endpoint={`${API_BASE}/api/internal/send_message`}
                                     method="POST"
                                     defaultPayload={{
                                         platform: "telegram",

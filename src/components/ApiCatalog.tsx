@@ -293,7 +293,7 @@ const ApiCatalog = ({ businessId, targetRole, defaultChatId }: any) => {
                             <div className="border-t border-white/10 pt-6">
                                 <h4 className="text-xs font-bold uppercase text-apple-textMuted tracking-widest mb-4">Probador en Vivo</h4>
                                 <ApiTester
-                                    endpoint={activeEndpoint.path}
+                                    endpoint={`https://api.websopen.com${activeEndpoint.path}`}
                                     method={activeEndpoint.method}
                                     defaultPayload={activeEndpoint.payload}
                                     syncGlobal={{
